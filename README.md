@@ -1,5 +1,7 @@
 **MyShell**
+
 ***A custom, productivity-focused command-line interface built with Python.***
+
 This project was inspired by the challenge to build a "Unique Project" that demonstrates system-level programming, file I/O, and developer automation.
 
 ## Key Features
