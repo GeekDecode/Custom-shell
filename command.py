@@ -2,8 +2,15 @@ import os
 from typing import List
 import platform
 import webbrowser
+from groq import Groq
 import sys
 import subprocess
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
+GROQ_KEY = os.getenv("GROQ_API_KEY")
+
+client = Groq(api_key=GROQ_KEY)
 
 def yellow_color(str):
     return f"\033[33m{str}\033[0m"
@@ -176,7 +183,7 @@ def get_git_status()->str:
         ).decode().strip()
 
         status= subprocess.check_output(
-            ["git", "status", "--shoert"],
+            ["git", "status", "--short"],
             stderr=subprocess.DEVNULL
         ).decode().strip()
 
@@ -212,6 +219,36 @@ def dashboard(history_list: List[str]) ->str:
     return "\n".join(output)
 
 
+def ai_buddy(history_list: list[str])-> str:
+    """Uses Groq to give lighting-fast fun insights."""
+    if not GROQ_KEY:
+        return "⚠️ AI Buddy needs a Groq API Key in your .env file!"
+
+    if len(history_list) < 2:
+        return "I'm watching! Run some more commands first. 👀"
+
+    history_str = ", ".join(history_list[-10:])
+    
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a supportive, fun coding buddy. Give 1-sentence responses with emojis."
+                },
+                {
+                    "role": "user",
+                    "content": f"My recent shell commands are: {history_str}. Cheer me on or give a fun fact!"
+                }
+            ],
+            model="llama-3.3-70b-versatile", # This model is very smart and free
+        )
+        return f"\n⚡ AI BUDDY: {chat_completion.choices[0].message.content}"
+    
+    except Exception as e:
+        return f"☁️ AI Buddy is offline. (Error: {str(e)[:50]}...)"
+
+
 def exit_shell() ->str:
     """
     Exit the shell safely
@@ -237,7 +274,8 @@ def help_command()->str:
         'exit/quit':'Exit the shell',
         'clear':'Clear the clean the shell from mess',
         'todo':'makes a todo list',
-        'dashboard':'Shows Git dashboard'
+        'status':'Shows Git dashboard',
+        'buddy':'gives fun commentary'
     }
 
     help_text= ["Available commands"]
@@ -258,5 +296,6 @@ COMMANDS={
     'todo':manage_todo,
     'exit':lambda _:exit_shell(),
     'quit':lambda _:exit_shell(),
-    'status':lambda h_list:dashboard(h_list)
+    'status':lambda h_list:dashboard(h_list),
+    'buddy':lambda h_list:ai_buddy(h_list)
     }

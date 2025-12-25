@@ -30,6 +30,7 @@ while True:
             continue
         history.append(user_input_stripped)
 
+
         try:
             user_inputs = shlex.split(user_input_stripped)
         except ValueError as e:
@@ -41,7 +42,7 @@ while True:
  
         if command in COMMANDS:
             try:
-                if command in["history","status"]:
+                if command in["history","status","buddy"]:
                     result = COMMANDS[command](history)
                 else:
                     result = COMMANDS[command](args)
