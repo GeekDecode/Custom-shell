@@ -24,3 +24,11 @@ This project was inspired by the challenge to build a "Unique Project" that demo
                         Add your Groq API Key:`GROQ_API_KEY=your_key_here`.l                        
 4. Add the folder path to your System Environment Variables (Path).
 5. Run by typing `myshell` in any terminal.
+
+## Docker Cheat Sheet
+1. Build the image: `docker build -t my-ai-shell .`
+2. Run with Persistence: `docker run -it --env-file .env -v "${PWD}:/app" my-ai-shell` OR
+                    just run `run`
+                    
+
+

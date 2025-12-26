@@ -102,10 +102,14 @@ def google_search(args: List[str])->str:
     if not args:
         return "What do you want to serach for?"
     
-    query=" ".join(args)
+    query="+".join(args)
     url=f"https://www.google.com/search?q={query}"
-    webbrowser.open(url)
-    return f"Opening browser to search for: {query}"
+    #special "ESCAPE CHARACTERS" taht create hyperlink since docker is running linux while operating on windows
+    link_start = "\x1b]8;;" 
+    link_end = "\x1b\\"
+    reset = "\x1b]8;;\x1b\\"
+    display_text = f" Click here to search for: {' '.join(args)}"
+    return f"\n{link_start}{url}{link_end}{display_text}{reset}\n"
 
 
 def clear_screen()->str:
@@ -275,7 +279,7 @@ def help_command()->str:
         'clear':'Clear the clean the shell from mess',
         'todo':'makes a todo list',
         'status':'Shows Git dashboard',
-        'buddy':'gives fun commentary'
+        'buddy':'gives fun commentary',
     }
 
     help_text= ["Available commands"]
@@ -297,5 +301,5 @@ COMMANDS={
     'exit':lambda _:exit_shell(),
     'quit':lambda _:exit_shell(),
     'status':lambda h_list:dashboard(h_list),
-    'buddy':lambda h_list:ai_buddy(h_list)
+    'buddy':lambda h_list:ai_buddy(h_list),
     }
