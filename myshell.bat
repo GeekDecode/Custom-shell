@@ -1,4 +1,3 @@
 @echo off
-python "C:\Users\priti\OneDrive\Documents\Shell\main.py"
-
-:: removed pause here
+cd /d "C:\Users\priti\OneDrive\Documents\Shell"
+docker run -it --env-file .env -v "%cd%:/app" geekdecode/my-ai-shell
