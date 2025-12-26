@@ -14,7 +14,14 @@ This project was inspired by the challenge to build a "Unique Project" that demo
 ## Tech Stack
 - ***Language:*** Python 3
 - ***Libraries:*** groq, python-dotenv
-- ***Concepts:*** REPL Architecture, Subprocess Management, File Handling, Lambda Functions.
+- ***Concepts:*** REPL Architecture, Docker, Subprocess Management, File Handling, Lambda Functions.
+
+
+## Docker
+If you have Docker installed, you can run this shell without needing Python locally:
+1. Build the image: `docker build -t my-ai-shell .`
+2. Run with Persistence: `docker run -it --env-file .env -v "${PWD}:/app" my-ai-shell` OR
+                         just run `run`
 
 ## Installation
 1. Clone the repo: `https://github.com/GeekDecode/Custom-shell.git`
@@ -25,10 +32,9 @@ This project was inspired by the challenge to build a "Unique Project" that demo
 4. Add the folder path to your System Environment Variables (Path).
 5. Run by typing `myshell` in any terminal.
 
-## Docker Cheat Sheet
-1. Build the image: `docker build -t my-ai-shell .`
-2. Run with Persistence: `docker run -it --env-file .env -v "${PWD}:/app" my-ai-shell` OR
-                    just run `run`
+
+
+                    
                     
 
 
